@@ -1,20 +1,49 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React from "react";
+import { SafeAreaView, StyleSheet } from "react-native";
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+import Main from "./pages/Main";
+import Home from "./pages/Home";
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import { NotesProvider } from "./context/NotesContext";
+import { StatusBar } from "expo-status-bar";
+import Note from "./pages/Note";
+
+const Stack = createStackNavigator();
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
+    <NotesProvider>
       <StatusBar style="auto" />
-    </View>
+      <SafeAreaProvider>
+        <SafeAreaView style={styles.container}>
+          <NavigationContainer>
+            <Stack.Navigator initialRouteName="Main">
+              <Stack.Screen
+                options={{ headerShown: false }}
+                name="Main"
+                component={Main}
+              />
+              <Stack.Screen
+                options={{ headerShown: false }}
+                name="Home"
+                component={Home}
+              />
+              <Stack.Screen
+                options={{title : ""}}
+                name="Note"
+                component={Note}
+              />
+            </Stack.Navigator>
+          </NavigationContainer>
+        </SafeAreaView>
+      </SafeAreaProvider>
+    </NotesProvider>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
   },
 });
